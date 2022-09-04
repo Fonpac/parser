@@ -63,9 +63,9 @@ export class Lexer {
         }
   
         // Checando se o currentChar é um número
-        const numRe = RegExp(/[0-9 ()+-]+$/g);
-        // const match = numRe.test(currentChar)
-        const match = this.expression.slice(this.current - 1).match(numRe)!
+        const numRe = RegExp(/[+-]?(\d+(\.\d*)?|\.\d+)(e\d+)?/g);
+        const [match] = this.expression.slice(this.current - 1).match(numRe)!
+
         // Checando se o currentChar não for um número ele é um operador de "-"
         if (!match) {
           if (currentChar == '-') {
@@ -76,10 +76,10 @@ export class Lexer {
         }
   
         // Setando o current do lexer pra ser o final do currentChar
-        this.current += currentChar.length - 1
+        this.current += match.length - 1
   
         // Retornando o currentChar
-        return [LexerEnum.NUM, currentChar.replace(" ", "")]
+        return [LexerEnum.NUM, match.replace(" ", "")]
       }
       return null
     }

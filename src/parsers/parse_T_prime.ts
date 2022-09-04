@@ -2,7 +2,6 @@ import { Lexer, LexerEnum, ParserReturn, operators } from "../Lexer.js"
 import { parse_F, parse_T_prime } from  "./index.js"
 
 export default (lexer: Lexer): ParserReturn => {
-    console.log("PARSE T PRIME")
     const lexerResult = lexer.next();
     if (lexerResult) {
         const [token, operator] = lexerResult
