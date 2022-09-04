@@ -2,7 +2,6 @@ import { Lexer, LexerEnum, ParserReturn } from "../Lexer.js";
 import { parse_E } from  "./index.js"
 
 export default (lexer: Lexer): ParserReturn => {
-    console.log("PARSE F")
     const lexerResult = lexer.next()
 
     if (lexerResult) {

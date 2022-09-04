@@ -41,47 +41,46 @@ export class Lexer {
     }
 
     putBack() {
-      console.log(this.current, this.previous)
       this.current = this.previous
     }
 
     next(): [LexerEnum, string] | null {
       // Caso esteja no final da expressão
-      if (this.current >= this.expression.length) return null
-
-      // Pulando espaços em branco
-      while(whiteSpaces.includes(this.expression[this.current])) {
+      if (this.current < this.expression.length) {
+        // Pulando espaços em branco
+        while(whiteSpaces.includes(this.expression[this.current])) {
+          this.current++
+        }
+        
+        // Setando a iteração e o currentChar
+        this.previous = this.current
+        let currentChar = this.expression[this.current]
         this.current++
-      }
-
-      // Setando a iteração e o currentChar
-      this.previous = this.current
-      let currentChar = this.expression[this.current]
-      this.current++
-
-      // Checando por simbolos como  "(, ), +, /, *"
-      if (SymbolMap[currentChar]) {
-        return [SymbolMap[currentChar], currentChar]
-      }
-
-      // Checando se o currentChar é um número
-      const numRe = RegExp(/[0-9 ()+-]+$/g);
-      // const match = numRe.test(currentChar)
-      console.log(currentChar)
-      const match = this.expression.slice(this.current - 1).match(numRe)!
-      // Checando se o currentChar não for um número ele é um operador de "-"
-      if (!match) {
-        if (currentChar == '-') {
-          return [LexerEnum.OPERATOR, currentChar]
+  
+        // Checando por simbolos como  "(, ), +, /, *"
+        if (SymbolMap[currentChar]) {
+          return [SymbolMap[currentChar], currentChar]
         }
   
-        this.error()
+        // Checando se o currentChar é um número
+        const numRe = RegExp(/[+-]?(\d+(\.\d*)?|\.\d+)(e\d+)?/g);
+        const [match] = this.expression.slice(this.current - 1).match(numRe)!
+
+        // Checando se o currentChar não for um número ele é um operador de "-"
+        if (!match) {
+          if (currentChar == '-') {
+            return [LexerEnum.OPERATOR, currentChar]
+          }
+    
+          this.error()
+        }
+  
+        // Setando o current do lexer pra ser o final do currentChar
+        this.current += match.length - 1
+  
+        // Retornando o currentChar
+        return [LexerEnum.NUM, match.replace(" ", "")]
       }
-
-      // Setando o current do lexer pra ser o final do currentChar
-      this.current += currentChar.length
-
-      // Retornando o currentChar
-      return [LexerEnum.NUM, currentChar.replace(" ", "")]
+      return null
     }
 }
