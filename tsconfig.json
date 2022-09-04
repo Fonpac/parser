@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "target": "ES2021",
+        "lib": [
+            "ESNext"
+        ],
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "esModuleInterop": true,
+        "rootDir": "./src",
+        "allowJs": false,
+        "outDir": "./dist",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "skipLibCheck": true,
+        "sourceMap": true
+    },
+    "include": [
+        "./**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "build/**/*"
+    ]
+}

@@ -1,0 +1,87 @@
+export enum LexerEnum {
+  OPEN_PAR = 1,
+  CLOSE_PAR = 2,
+  OPERATOR = 3,
+  NUM = 4
+}
+
+export const whiteSpaces = [" ", "\t", "\n", "\r"]
+export const operators = ["+", "/", "*"]
+export type ParserReturn = number | string | null | void;
+
+const SymbolMap: Record<string, LexerEnum> = {
+  ...operators.reduce((obj, op,) => ({...obj, [op]: LexerEnum.OPERATOR}), {}),
+  ")": LexerEnum.CLOSE_PAR,
+  "(": LexerEnum.OPEN_PAR
+}
+
+export class Lexer {
+    public expression: string
+    public current: number
+    public previous: number
+    public number_regex: RegExp = new RegExp(/[0-9 ()+-]+$/g)
+
+    constructor(expression: string) {
+      this.expression = expression
+      this.current = 0
+      this.previous = -1
+    }
+
+    error(message?: string) {
+      let errorMessage = `Error at ${this.current}: \n${this.expression.slice(
+        this.current - 1,
+        this.current + 10
+      )}`
+
+      if (!message) {
+        errorMessage = `${message}\n${errorMessage}`
+      }
+
+      throw errorMessage
+    }
+
+    putBack() {
+      console.log(this.current, this.previous)
+      this.current = this.previous
+    }
+
+    next(): [LexerEnum, string] | null {
+      // Caso esteja no final da expressão
+      if (this.current >= this.expression.length) return null
+
+      // Pulando espaços em branco
+      while(whiteSpaces.includes(this.expression[this.current])) {
+        this.current++
+      }
+
+      // Setando a iteração e o currentChar
+      this.previous = this.current
+      let currentChar = this.expression[this.current]
+      this.current++
+
+      // Checando por simbolos como  "(, ), +, /, *"
+      if (SymbolMap[currentChar]) {
+        return [SymbolMap[currentChar], currentChar]
+      }
+
+      // Checando se o currentChar é um número
+      const numRe = RegExp(/[0-9 ()+-]+$/g);
+      // const match = numRe.test(currentChar)
+      console.log(currentChar)
+      const match = this.expression.slice(this.current - 1).match(numRe)!
+      // Checando se o currentChar não for um número ele é um operador de "-"
+      if (!match) {
+        if (currentChar == '-') {
+          return [LexerEnum.OPERATOR, currentChar]
+        }
+  
+        this.error()
+      }
+
+      // Setando o current do lexer pra ser o final do currentChar
+      this.current += currentChar.length
+
+      // Retornando o currentChar
+      return [LexerEnum.NUM, currentChar.replace(" ", "")]
+    }
+}
