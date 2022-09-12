@@ -19,7 +19,6 @@ export class Lexer {
     public expression: string
     public current: number
     public previous: number
-    public number_regex: RegExp = new RegExp(/[0-9 ()+-]+$/g)
 
     constructor(expression: string) {
       this.expression = expression
