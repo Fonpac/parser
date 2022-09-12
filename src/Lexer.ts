@@ -54,7 +54,8 @@ export class Lexer {
         
         // Setando a iteração e o currentChar
         this.previous = this.current
-        let currentChar = this.expression[this.current]
+        const currentChar = this.expression[this.current]
+        const proxChar = this.expression[this.current + 1] ?? null;
         this.current++
   
         // Checando por simbolos como  "(, ), +, /, *"
@@ -67,7 +68,7 @@ export class Lexer {
         const [match] = this.expression.slice(this.current - 1).match(numRe)!
 
         // Checando se o currentChar não for um número ele é um operador de "-"
-        if (!match) {
+        if (!match|| (currentChar === '-' && !proxChar.match(numRe))) {
           if (currentChar == '-') {
             return [LexerEnum.OPERATOR, currentChar]
           }
