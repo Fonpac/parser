@@ -18,7 +18,7 @@ export const SymbolMap: Record<string, LexerEnum> = {
 
 export const numRe = RegExp(/[+-]?(\d+(\.\d*)?|\.\d+)(e\d+)?/g);
 export const reservedWords = ['sin', 'cos', 'log', 'sqrt']
-export const reserverdWordRe = RegExp(/^(sin|cos|log|sqrt)/gmi);
+export const reservedWordRe = RegExp(/^(sin|cos|log|sqrt)/gmi);
 
 export const symbolTable: Record<string, Function> = {
     'sin': (num: number) => Math.sin(num),

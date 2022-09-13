@@ -1,4 +1,4 @@
-import { LexerEnum, numRe, reserverdWordRe, SymbolMap, whiteSpaces } from "./Utils.js"
+import { LexerEnum, numRe, reservedWordRe, SymbolMap, whiteSpaces } from "./Utils.js"
 
 
 export class Lexer {
@@ -63,7 +63,7 @@ export class Lexer {
 
       // Se não for número pode ser palavra reservada
       if (!matchNum) {
-        const [matchReserved] = sliced.slice().match(reserverdWordRe)!
+        const [matchReserved] = sliced.slice().match(reservedWordRe)!
         if (matchReserved) {
           console.log([LexerEnum.OPERATOR, matchReserved])
           return [LexerEnum.OPERATOR, matchReserved]
