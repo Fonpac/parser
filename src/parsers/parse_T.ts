@@ -1,9 +1,9 @@
 import { Lexer, ParserReturn } from "../Lexer.js";
-import { parse_F, parse_T_prime } from  "./index.js"
+import { parse_G, parse_T_prime } from  "./index.js"
 
 export default (lexer: Lexer): ParserReturn => {
-    const F = parse_F(lexer)
+    const G = parse_G(lexer)
     const T_prime = parse_T_prime(lexer)
 
-    return T_prime == null ? F : (F as number) * (T_prime as number);
+    return T_prime == null ? G : (G as number) * (T_prime as number);
 }

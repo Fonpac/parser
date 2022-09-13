@@ -6,7 +6,7 @@ export enum LexerEnum {
 }
 
 export const whiteSpaces = [" ", "\t", "\n", "\r"]
-export const operators = ["+", "/", "*"]
+export const operators = ["+", "/", "*", "^"]
 export type ParserReturn = number | string | null | void;
 
 const SymbolMap: Record<string, LexerEnum> = {

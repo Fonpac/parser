@@ -6,14 +6,14 @@ export default (lexer: Lexer): ParserReturn => {
     if (lexerResult) {
         const [token, operator] = lexerResult
     
-        const isMultiplicationOrDivision = token == LexerEnum.OPERATOR && ["*", "/"].includes(operator)
+        const isMultiplicationOrDivision = (token == LexerEnum.OPERATOR && ["^"].includes(operator))
         if (isMultiplicationOrDivision) {
             const G = parse_G(lexer)
     
             // Só precisamos fazer a recursão
             const T_prime = parse_T_prime(lexer)
     
-            return operator === "*" ? G : 1 / (G as number)
+            return G;
         }
     
         lexer.putBack()
