@@ -19,6 +19,17 @@ export default (lexer: Lexer): ParserReturn => {
             return E
         }
 
+        if(token === LexerEnum.FUNC){
+            const E = parse_E(lexer)
+
+            const lexerResult = lexer.next()
+            if (lexerResult && lexerResult[0] != LexerEnum.CLOSE_PAR) {
+                lexer.error("Unbalanced parenthesis.")
+            }
+
+            return E
+        }
+
         if (token == LexerEnum.NUM) {
             if (isNaN(+value)) {
                 return value
