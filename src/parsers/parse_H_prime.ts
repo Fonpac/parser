@@ -6,7 +6,7 @@ export default (lexer: Lexer): ParserReturn => {
     const lexerResult = lexer.next();
     if (lexerResult) {
         const [token, reservedWord] = lexerResult
-        const isReserved = (token == LexerEnum.OPERATOR && reservedWords.includes(reservedWord))
+        const isReserved = (token == LexerEnum.FUNC && reservedWords.includes(reservedWord))
         if (isReserved) {
             const F = parse_F(lexer)
 

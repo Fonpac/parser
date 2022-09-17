@@ -62,11 +62,10 @@ export class Lexer {
       }
 
       // Se não for número pode ser palavra reservada
-      const [matchReserved] = sliced?.slice()?.match(reservedWordRe)!
+      const matchReserved = sliced?.slice()?.match(reservedWordRe)!
       if (matchReserved) {
         this.current += matchReserved.length - 1;
-        console.log([LexerEnum.FUNC, matchReserved])
-        return [LexerEnum.FUNC, matchReserved]
+        return [LexerEnum.FUNC, matchReserved[0]]
       }
 
 

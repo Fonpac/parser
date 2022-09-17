@@ -1,5 +1,5 @@
 import { Lexer } from "../Lexer.js";
-import { LexerEnum, ParserReturn } from "../Utils.js";
+import { LexerEnum, ParserReturn, reservedWordMap } from "../Utils.js";
 import { parse_E } from "./index.js"
 
 export default (lexer: Lexer): ParserReturn => {
@@ -22,12 +22,7 @@ export default (lexer: Lexer): ParserReturn => {
         if(token === LexerEnum.FUNC){
             const E = parse_E(lexer)
 
-            const lexerResult = lexer.next()
-            if (lexerResult && lexerResult[0] != LexerEnum.CLOSE_PAR) {
-                lexer.error("Unbalanced parenthesis.")
-            }
-
-            return E
+            return reservedWordMap[value](E);
         }
 
         if (token == LexerEnum.NUM) {
