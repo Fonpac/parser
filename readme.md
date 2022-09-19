@@ -24,7 +24,7 @@ npm run dev
 # G = HG'
 # G' = ^ HG' | &
 # H = FH'
-# H' = sin(F)H' | cos(F)H' | &
-# F = ( E ) | num
+# H' = H' | &
+# F = ( E ) | num | func(E)
 # num = [+-]?([0-9]+(.[0-9]+)?|.[0-9]+)(e[0-9]+)+)?)
 ```
