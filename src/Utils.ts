@@ -5,7 +5,8 @@ export enum LexerEnum {
     CLOSE_PAR = 2,
     OPERATOR = 3,
     FUNC = 4,
-    NUM = 5
+    VAR = 5,
+    NUM = 6
 }
 
 export const whiteSpaces = [" ", "\t", "\n", "\r"]
@@ -20,10 +21,15 @@ export const SymbolMap: Record<string, LexerEnum> = {
 export const numRe = RegExp(/[+-]?(\d+(\.\d*)?|\.\d+)(e\d+)?/g);
 export const reservedWords = ['sin', 'cos', 'log', 'sqrt']
 export const reservedWordRe = RegExp(/^(sin|cos|log|sqrt)/gmi);
+export const wordRegex = RegExp(/^[a-zA-Z]*/g);
 
 export const reservedWordMap: Record<string, Function> = {
     'sin': (num: number) => Math.sin(num),
     'cos': (num: number) => Math.cos(num),
     'log': (num: number) => Math.log(num),
     'sqrt': (num: number) => Math.sqrt(num),
+}
+
+export const symbolTable: Record<string, number | null> = {
+    'abc': 5,
 }

@@ -25,6 +25,6 @@ npm run dev
 # G' = ^ HG' | &
 # H = FH'
 # H' = H' | &
-# F = ( E ) | num | func(E)
+# F = ( E ) | num | func(E) | Id
 # num = [+-]?([0-9]+(.[0-9]+)?|.[0-9]+)(e[0-9]+)+)?)
 ```

@@ -1,4 +1,4 @@
-import { LexerEnum, numRe, reservedWordRe, SymbolMap, whiteSpaces } from "./Utils.js"
+import { LexerEnum, numRe, reservedWordRe, SymbolMap, symbolTable, whiteSpaces, wordRegex } from "./Utils.js"
 
 
 export class Lexer {
@@ -43,6 +43,10 @@ export class Lexer {
       const proxChar = this.expression[this.current + 1] ?? null;
       this.current++
 
+      if (currentChar === '=') {
+        return [LexerEnum.OPERATOR, currentChar];
+      }
+
       // Checando por simbolos como  "(, ), +, /, *, ^"
       if (SymbolMap[currentChar]) {
         return [SymbolMap[currentChar], currentChar]
@@ -50,8 +54,22 @@ export class Lexer {
 
       let sliced = this.expression.slice(this.current - 1)
 
+      // Se não for número pode ser palavra reservada
+      const matchReserved = sliced?.slice()?.match(reservedWordRe)!
+      if (matchReserved) {
+        this.current += matchReserved[0].length - 1;
+        return [LexerEnum.FUNC, matchReserved[0]]
+      }
+
+      // var prob
+      const matchWord = sliced?.slice()?.match(wordRegex)!
+      if (matchWord && Boolean(matchWord[0].length)) {
+        this.current += matchWord[0].length - 1;
+        return [LexerEnum.VAR, matchWord[0]]
+      }
+
       // Checando se o currentChar é um número
-      const [matchNum] = sliced.slice().match(numRe)!
+      const matchNum = sliced.slice().match(numRe)!
       // Checando se o currentChar não for um número ele é um operador de "-"
       if (!matchNum || (currentChar === '-' && !proxChar.match(numRe))) {
         if (currentChar == '-') {
@@ -61,19 +79,11 @@ export class Lexer {
         this.error()
       }
 
-      // Se não for número pode ser palavra reservada
-      const matchReserved = sliced?.slice()?.match(reservedWordRe)!
-      if (matchReserved) {
-        this.current += matchReserved.length - 1;
-        return [LexerEnum.FUNC, matchReserved[0]]
-      }
-
-
       // Setando o current do lexer pra ser o final do currentChar
-      this.current += matchNum.length - 1
+      this.current += matchNum[0].length - 1
 
       // Retornando o currentChar
-      return [LexerEnum.NUM, matchNum.replace(" ", "")]
+      return [LexerEnum.NUM, matchNum[0].replace(" ", "")]
     }
     return null
   }

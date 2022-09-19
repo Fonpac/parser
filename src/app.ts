@@ -31,7 +31,9 @@ const init = () => {
     "sin(cos(log(10)))",
     "cos(45)",
     "log(45)",
-    "sqrt(45)"
+    "sqrt(45)",
+    "xxx = 2",
+    "sqrt(xxx+xxx)"
   ]
 
   for (let expression of expressions) {
